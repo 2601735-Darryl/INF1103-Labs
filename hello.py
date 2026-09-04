@@ -3,6 +3,14 @@ print("Welcome here")
 print("My first post!")
 print("=====================")
 
+followers = 100
+followers += 50 
+print (f'Day 1 : {followers}')
+followers += 20
+print (f'Day 2 : {followers}')
+followers += 10
+print (f'Day 3 : {followers}')
+
 username = input("Enter Username: ")
 age = int(input("Enter Age: "))
 category = input("Enter Content Category: ")
