@@ -3,10 +3,12 @@ print("Welcome here")
 print("My first post!")
 print("=====================")
 
-username = "yes"
-bio = "glhf"
-followers = "12"
+username = input("Enter Username: ")
+age = input("Enter Age: ")
+category = input("Enter Content Category: ")
 
+print("\nInstagram Profile")
+print("====================")
 print(f'Username : {username}')
-print(f'Bio : {bio}')
-print(f'Followers : {followers}')
+print(f'Age : {age}')
+print(f'Category : {category}')
