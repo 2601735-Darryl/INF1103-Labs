@@ -3,7 +3,14 @@ print("Welcome here")
 print("My first post!")
 print("=====================")
 
+username = 'cool_creator'
+bio = "fun blogger"
 followers = 100
+
+print(f'Username: {username}')
+print(f'Bio: {bio}')
+print(f'Followers: {followers}')
+
 followers += 50 
 print (f'Day 1 : {followers}')
 followers += 20
