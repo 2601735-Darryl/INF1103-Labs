@@ -5,8 +5,6 @@ while True:
     if stock == 'q':
         print(f"Total units processed: {inventory}\nNumber of Failed/Rejected entries: {failed_entries}")
         break
-    elif inventory > 500:
-        print("Inventory exceeding 500 units")
     elif stock.isdigit():
             inventory += int(stock)
             if inventory > 500:
