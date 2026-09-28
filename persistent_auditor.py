@@ -37,7 +37,7 @@ def save_inventory(file_path,inv_list):
             file.write(f'{list_str}\n')
     print(f'Order successfully saved to {file_path}')
 
-file = Path('INF-1103-Labs/inventory.txt')
+file = Path('inventory.txt')
 inventory = load_inventory(file)
 
 while True:
