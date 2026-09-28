@@ -10,7 +10,7 @@ def get_valid_input(var_type):
             return product
     elif var_type == 'num':
         stock = input("Enter Quantity (type 'q' to quit): ")
-        if stock == 'q' or stock.isdigit() and stock == 0:
+        if stock == 'q' or stock.isdigit() and stock != '0':
             return stock
         else:
             print("Error! Please enter a positive integer!")
@@ -37,7 +37,7 @@ def save_inventory(file_path,inv_list):
             file.write(f'{list_str}\n')
     print(f'Order successfully saved to {file_path}')
 
-file = Path('inventory.txt')
+file = Path('INF-1103-Labs/inventory.txt')
 inventory = load_inventory(file)
 
 while True:
