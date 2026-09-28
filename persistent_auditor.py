@@ -39,8 +39,6 @@ def save_inventory(file_path,inv_list):
 
 file = Path('INF-1103-Labs/inventory.txt')
 inventory = load_inventory(file)
-failed_entries = 0
-delivery_fee = 0
 
 while True:
     if inventory == []:
