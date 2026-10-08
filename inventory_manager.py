@@ -103,7 +103,7 @@ Stock: {i["Stock"]}
         print('Product not found.')
 
 
-file = Path('INF-1103-Labs/inventory.json')
+file = Path('inventory.json')
 inventory = load_inventory(file)
 print('''
 ========================================
