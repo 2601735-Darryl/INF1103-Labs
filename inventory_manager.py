@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import json
+
 def is_float(element):
     try:
         float(element)
@@ -46,27 +47,60 @@ def append_inventory(inv_list,new_order):
     inv_list = inv_list.append(new_order)
     print(f'New Order Added:\n{", ".join(new_order)}')
 
-def save_inventory(file_path,inv_list):
+def save_inventory(file_path,inv_list,menu_option):
     with open(file_path,'w',encoding="utf-8") as file:
-        for i in inv_list:
-            list_str = ', '.join(i)
-            file.write(f'{list_str}\n')
-    print(f'Order successfully saved to {file_path}')
+        json.dump(inv_list, file, indent=4)
+    if menu_option == '5':
+        print(f'\nSaving inventory...\nInventory saved to {file_path}')
+    else:
+        print('\nSaving inventory before exit...Inventory saved successfully.')
+
 
 def add_product(p_list,p_id,p_name,p_price,p_stock):
     p_list = p_list.append({
         'ID' : p_id,
         'Name' : p_name,
-        'Price' : p_price,
+        'Price' : '$' + p_price,
         'Stock' : p_stock
     })
     print('\nProduct added successfully!')
 
 def display_all(p_list):
-    print('------------------------------------------------')
+    print('\n------------------------------------------------')
     for i in p_list:
         print(f'ID: {i['ID']} | Name: {i['Name']} | Price: {i['Price']} | Stock: {i['Stock']}')
     print('------------------------------------------------')
+
+def update_stock(p_list,p_id):
+    found = 0
+    for i in p_list:
+        if i['ID'] == p_id:
+            print(f'\nProduct Found:\nName: {i["Name"]}\nCurrent Stock: {i["Stock"]}\n')
+            new_p_stock = validate_int_input(input('New Stock Quantity: '))
+            i["Stock"] = new_p_stock
+            print('\nStock updated successfully!')
+            found = 1
+            return i
+    if found == 0:
+        print('Product not found.')
+
+def search_product(p_list,p_id):
+    found = 0
+    for i in p_list:
+        if i['ID'] == p_id:
+            print(f'''
+Product Found
+------------------------------------------------
+ID : {i["ID"]}
+Name: {i["Name"]}
+Price: {i["Price"]}
+Stock: {i["Stock"]}
+------------------------------------------------\n
+''')
+            found = 1
+            return i
+    if found == 0:
+        print('Product not found.')
 
 
 file = Path('INF-1103-Labs/inventory.json')
@@ -101,19 +135,29 @@ print('''
 ----------------------------
 ''')
 while True:
-    option = input("Enter option: ")
+    option = input("\nEnter option: ")
     match option:
         case '1':
-            print(inventory)
             display_all(inventory)
         case '2':
             print('Add New Product')
             product_id = validate_str_input(input('Product ID: '))
-            # product_id = input('Product ID: ')
             product_name = validate_str_input(input('Product Name: '))
             product_price = validate_float_input(input('Price: '))
             product_stock = validate_int_input(input('Stock Quantity: '))
             add_product(inventory,product_id,product_name,product_price,int(product_stock))
+        case '3':
+            product_id = input('Product ID: ')
+            update_stock(inventory,product_id)
+        case '4':
+            product_id = input('Product ID: ')
+            search_product(inventory,product_id)
+        case '5':
+            save_inventory(file,inventory,option)
+        case '6':
+            save_inventory(file,inventory,option)
+            print('\nThank you for using Inventory Management System.\nProgram terminated.')
+            break
         case _:
             print('Invalid option!')
         
