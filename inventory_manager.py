@@ -29,18 +29,18 @@ def validate_float_input(user_input):
         print("Error! Please enter a positive float value!")
         return
     
-# def load_inventory(file_path):
-#     if os.path.exists(file_path):
-#         if os.path.getsize(file_path) != 0:
-#             try:
-#                 with open(file_path,'r',encoding="utf-8") as file:
-#                     content = json.load(file)
-#                     return content
-#             except json.JSONDecodeError:
-#                 return []
-#     else:
-#         with open(file_path,'x',encoding="utf-8") as file:
-#             return []
+def load_inventory(file_path):
+    if os.path.exists(file_path):
+        if os.path.getsize(file_path) != 0:
+            try:
+                with open(file_path,'r',encoding="utf-8") as file:
+                    content = json.load(file)
+                    return content
+            except json.JSONDecodeError:
+                return []
+    else:
+        with open(file_path,'x',encoding="utf-8") as file:
+            return []
 
 def append_inventory(inv_list,new_order):
     inv_list = inv_list.append(new_order)
@@ -70,8 +70,7 @@ def display_all(p_list):
 
 
 file = Path('INF-1103-Labs/inventory.json')
-# inventory = load_inventory(file)
-inventory = []
+inventory = load_inventory(file)
 print('''
 ========================================
 INVENTORY MANAGEMENT SYSTEM
