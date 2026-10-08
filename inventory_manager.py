@@ -68,7 +68,7 @@ def add_product(p_list,p_id,p_name,p_price,p_stock):
 def display_all(p_list):
     print('\n------------------------------------------------')
     for i in p_list:
-        print(f'ID: {i['ID']} | Name: {i['Name']} | Price: {i['Price']} | Stock: {i['Stock']}')
+        print(f"ID: {i['ID']} | Name: {i['Name']} | Price: {i['Price']} | Stock: {i['Stock']}")
     print('------------------------------------------------')
 
 def update_stock(p_list,p_id):
