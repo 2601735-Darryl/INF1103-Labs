@@ -17,3 +17,5 @@ Price: {self._price}
 Stock: {self._stock}
 ------------------------------------------------
 ''')
+    def get_product_id(self):
+        return self._product_id
