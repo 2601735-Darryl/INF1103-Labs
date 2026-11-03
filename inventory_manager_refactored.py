@@ -37,7 +37,6 @@ def load_inventory(file_path):
                 with open(file_path, 'r', encoding="utf-8") as file:
                     content = json.load(file)
                     for item in content:
-                        # Strip the '$' from the JSON file to store as a float inside the object
                         raw_price = item['Price'].replace('$', '') if isinstance(item['Price'], str) else item['Price']
                         product = Product(item['ID'], item['Name'], float(raw_price), item['Stock'])
                         inventory_obj._products.append(product) # Load silently without triggering the "added successfully" print
@@ -61,59 +60,60 @@ def save_inventory(file_path, inventory_obj, menu_option):
 
 file = Path('inventory.json')
 inventory = load_inventory(file)
+
 print('''
 ========================================
 INVENTORY MANAGEMENT SYSTEM
 ========================================
 ''')
-if inventory == []:
+
+if not inventory.get_all_products():
     print(f'{file} either not found, is empty or is in an invalid format.')
-
 else:
-        print(f'{file} found.\nInventory loaded successfully.\n')
+    print(f'{file} found.\nInventory loaded successfully.\n')
 
-print('''
-
+while True:
+    print('''
 ----------- MENU -----------
-
 1. Display All Products
-
 2. Add Product
-
 3. Update Stock
-
 4. Search Product
-
 5. Save Inventory
-
 6. Exit
-
 ----------------------------
 ''')
-while True:
     option = input("\nEnter option: ")
     match option:
         case '1':
-            display_all(inventory)
+            inventory.display_all()
         case '2':
             print('Add New Product')
             product_id = validate_str_input(input('Product ID: '))
             product_name = validate_str_input(input('Product Name: '))
             product_price = validate_float_input(input('Price: '))
             product_stock = validate_int_input(input('Stock Quantity: '))
-            add_product(inventory,product_id,product_name,product_price,int(product_stock))
+            
+            if all(v is not None for v in [product_id, product_name, product_price, product_stock]):
+                new_product = Product(product_id, product_name, product_price, product_stock)
+                inventory.add_product(new_product)
         case '3':
             product_id = input('Product ID: ')
-            update_stock(inventory,product_id)
+            product_to_update = inventory.search_product(product_id)
+            if product_to_update:
+                print(f'Current Stock: {product_to_update.get_stock()}\n')
+                new_stock = validate_int_input(input('New Stock Quantity: '))
+                if new_stock is not None:
+                    product_to_update.update_stock(new_stock)
+                    print('\nStock updated successfully!')
         case '4':
             product_id = input('Product ID: ')
-            search_product(inventory,product_id)
+            inventory.search_product(product_id)
         case '5':
-            save_inventory(file,inventory,option)
+            save_inventory(file, inventory, option)
         case '6':
-            save_inventory(file,inventory,option)
+            save_inventory(file, inventory, option)
             print('\nThank you for using Inventory Management System.\nProgram terminated.')
             break
         case _:
             print('Invalid option!')
-        

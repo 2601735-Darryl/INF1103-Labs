@@ -19,3 +19,14 @@ Stock: {self._stock}
 ''')
     def get_product_id(self):
         return self._product_id
+
+    def get_stock(self):
+        return self._stock
+
+    def to_dict(self):
+        return {
+            'ID': self._product_id,
+            'Name': self._name,
+            'Price': f"${self._price}" if isinstance(self._price, float) else self._price,
+            'Stock': self._stock
+        }
