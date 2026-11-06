@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 class Product:
     def __init__(self,product_id,name,price,stock):
         self._product_id = product_id
@@ -7,6 +9,10 @@ class Product:
 
     def update_stock(self,quantity):
         self._stock = quantity
+
+    @abstractmethod
+    def get_fulfilment_info(self):
+        pass
 
     def display_information(self):
         print(f'''Product Information
@@ -41,6 +47,9 @@ class PhysicalProduct(Product):
         print(f'Weight: {self._weight}kg')
         print('------------------------------------------------\n')
 
+    def get_fulfilment_info(self):
+        return "This product requires physical shipping."
+
     def to_dict(self):
         data = super().to_dict()
         data['Type'] = 'physical'
@@ -56,6 +65,9 @@ class DigitalProduct(Product):
         super().display_information()
         print(f'Download Size: {self._download_size}MB')
         print('------------------------------------------------\n')
+
+    def get_fulfilment_info(self):
+        return "This product is delivered digitally via a download link."
 
     def to_dict(self):
         data = super().to_dict()
