@@ -2,7 +2,7 @@ import os
 import json
 from pathlib import Path
 from inventory import Inventory
-from product import Product
+from product import PhysicalProduct, DigitalProduct
 
 def is_float(element):
     try:
@@ -38,8 +38,16 @@ def load_inventory(file_path):
                     content = json.load(file)
                     for item in content:
                         raw_price = item['Price'].replace('$', '') if isinstance(item['Price'], str) else item['Price']
-                        product = Product(item['ID'], item['Name'], float(raw_price), item['Stock'])
-                        inventory_obj._products.append(product) # Load silently without triggering the "added successfully" print
+                        product_type = item.get('Type', 'physical')
+                        
+                        if product_type == 'physical':
+                            weight = float(item.get('Weight', 1.0)) 
+                            product = PhysicalProduct(item['ID'], item['Name'], float(raw_price), item['Stock'], weight)
+                        elif product_type == 'digital':
+                            download_size = float(item.get('DownloadSize', 100.0))
+                            product = DigitalProduct(item['ID'], item['Name'], float(raw_price), item['Stock'], download_size)
+                            
+                        inventory_obj._products.append(product) 
             except json.JSONDecodeError:
                 pass
     else:
@@ -89,14 +97,29 @@ while True:
             inventory.display_all()
         case '2':
             print('Add New Product')
+            p_type = input('Enter Product Type (1 for Physical, 2 for Digital): ')
+            if p_type not in ['1', '2']:
+                print("Invalid product type selected.")
+                continue
+                
             product_id = validate_str_input(input('Product ID: '))
             product_name = validate_str_input(input('Product Name: '))
             product_price = validate_float_input(input('Price: '))
             product_stock = validate_int_input(input('Stock Quantity: '))
             
             if all(v is not None for v in [product_id, product_name, product_price, product_stock]):
-                new_product = Product(product_id, product_name, product_price, product_stock)
-                inventory.add_product(new_product)
+                if p_type == '1':
+                    weight = validate_float_input(input('Weight (kg): '))
+                    if weight is not None:
+                        new_product = PhysicalProduct(product_id, product_name, product_price, product_stock, weight)
+                        inventory.add_product(new_product)
+                        print("Physical product added successfully.")
+                elif p_type == '2':
+                    download_size = validate_float_input(input('Download Size (MB): '))
+                    if download_size is not None:
+                        new_product = DigitalProduct(product_id, product_name, product_price, product_stock, download_size)
+                        inventory.add_product(new_product)
+                        print("Digital product added successfully.")
         case '3':
             product_id = input('Product ID: ')
             product_to_update = inventory.search_product(product_id)
