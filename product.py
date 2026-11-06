@@ -45,6 +45,7 @@ class PhysicalProduct(Product):
     def display_information(self):
         super().display_information()
         print(f'Weight: {self._weight}kg')
+        print(f'Fulfilment: {self.get_fulfilment_info()}')
         print('------------------------------------------------\n')
 
     def get_fulfilment_info(self):
@@ -64,6 +65,7 @@ class DigitalProduct(Product):
     def display_information(self):
         super().display_information()
         print(f'Download Size: {self._download_size}MB')
+        print(f'Fulfilment: {self.get_fulfilment_info()}')
         print('------------------------------------------------\n')
 
     def get_fulfilment_info(self):
