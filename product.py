@@ -30,3 +30,19 @@ Stock: {self._stock}
             'Price': f"${self._price}" if isinstance(self._price, float) else self._price,
             'Stock': self._stock
         }
+
+class PhysicalProduct(Product):
+    def __init__(self, product_id, name, price, stock, weight):
+        super().__init__(product_id, name, price, stock)
+        self._weight = weight
+
+    def display_information(self):
+        super().display_information()
+        print(f'Weight: {self._weight}kg')
+        print('------------------------------------------------\n')
+
+    def to_dict(self):
+        data = super().to_dict()
+        data['Type'] = 'physical'
+        data['Weight'] = self._weight
+        return data
