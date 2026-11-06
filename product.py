@@ -62,7 +62,7 @@ class PhysicalProduct(Product, CanBeShipped):
     
     def to_dict(self):
         data = super().to_dict()
-        data['Type'] = 'physical'
+        data['Type'] = 'Physical'
         data['Weight'] = self._weight
         return data
 
@@ -82,6 +82,6 @@ class DigitalProduct(Product):
 
     def to_dict(self):
         data = super().to_dict()
-        data['Type'] = 'digital'
+        data['Type'] = 'Digital'
         data['DownloadSize'] = self._download_size
         return data

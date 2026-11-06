@@ -38,12 +38,12 @@ def load_inventory(file_path):
                     content = json.load(file)
                     for item in content:
                         raw_price = item['Price'].replace('$', '') if isinstance(item['Price'], str) else item['Price']
-                        product_type = item.get('Type', 'physical')
+                        product_type = item.get('Type', 'Physical')
                         
-                        if product_type == 'physical':
+                        if product_type == 'Physical':
                             weight = float(item.get('Weight', 1.0)) 
                             product = PhysicalProduct(item['ID'], item['Name'], float(raw_price), item['Stock'], weight)
-                        elif product_type == 'digital':
+                        elif product_type == 'Digital':
                             download_size = float(item.get('DownloadSize', 100.0))
                             product = DigitalProduct(item['ID'], item['Name'], float(raw_price), item['Stock'], download_size)
                             
