@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
+from supplier import Supplier
 
-class Product:
-    def __init__(self,product_id,name,price,stock):
-        self._product_id = product_id
-        self._name = name
-        self._price = price
-        self._stock = stock
+class Product(ABC):
+    def __init__(self, product_id: str, name: str, price: float, stock: int, supplier: Supplier) -> None:
+        self.product_id: str = product_id
+        self.name: str = name
+        self.price: float = price
+        self.stock: int = stock
+        self.supplier: Supplier = supplier
 
     def update_stock(self,quantity):
         self._stock = quantity
@@ -14,15 +16,16 @@ class Product:
     def get_fulfilment_info(self):
         pass
 
-    def display_information(self):
+    def display_information(self) -> None:
         print(f'''Product Information
 ------------------------------------------------     
-Product ID: {self._product_id}
-Name: {self._name}
-Price: {self._price}
-Stock: {self._stock}
-------------------------------------------------
-''')
+Product ID: {self.product_id}
+Name: {self.name}
+Price: {self.price}
+Stock: {self.stock}
+Supplier: {self.supplier.name} ({self.supplier.contact_email})
+------------------------------------------------''')
+        
     def get_product_id(self):
         return self._product_id
 
