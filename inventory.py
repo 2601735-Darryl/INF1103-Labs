@@ -1,26 +1,37 @@
-class Inventory():
-    def __init__(self):
-        self._products = []
+from product import Product
 
-    def add_product(self,product):
-        self._products.append(product)
+class Inventory:
+    def __init__(self) -> None:
+        self.products: list[Product] = []
 
-    def search_product(self,product_id):
-        found = False
-        for product in self._products:
-            if product.get_product_id() == product_id:
-                print('Product Found!\n------------------------------------------------')
-                product.display_information()
-                found = True
+    def add_product(self, product: Product) -> None:
+        self.products.append(product)
+
+    def find_product(self, product_id: str) -> Product | None:
+        for product in self.products:
+            if product.product_id == product_id:
                 return product
-        if found == False:
-            print('Product cannot be found!')
-            return None
+        return None
+        
+    def remove_product(self, product_id: str) -> None:
+        product = self.find_product(product_id)
+        if product:
+            self.products.remove(product)
+            print(f"Product {product_id} removed from inventory.")
 
-    def display_all(self):
+    def search_product(self, product_id: str) -> Product | None:
+        product = self.find_product(product_id)
+        if product:
+            print('Product Found!\n------------------------------------------------')
+            product.display_information()
+            return product
+        print('Product cannot be found!')
+        return None
+
+    def display_all(self) -> None:
         print('All Products\n------------------------------------------------')
-        for product in self._products:
+        for product in self.products:
             product.display_information()
 
-    def get_all_products(self):
-        return self._products
+    def get_all_products(self) -> list[Product]:
+        return self.products
