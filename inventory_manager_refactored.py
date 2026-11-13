@@ -83,6 +83,17 @@ def test_lsp() -> None:
     print("Testing Digital Product LSP:")
     show_product_details(digital_test)
 
+def test_polymorphism(inventory_obj: Inventory) -> None:
+    print("\n---Testing Polymorphism---")
+    
+    if not inventory_obj.products:
+        print("Inventory is empty. Add products to test polymorphism.")
+        return
+        
+    for product in inventory_obj.products:
+        product.display_information()
+        print(f"Fulfilment Details: {product.get_fulfilment_info()}\n")
+
 file = Path('inventory.json')
 inventory = load_inventory(file)
 
@@ -96,6 +107,9 @@ if not inventory.get_all_products():
     print(f'{file} either not found, is empty or is in an invalid format.')
 else:
     print(f'{file} found.\nInventory loaded successfully.\n')
+
+test_lsp()
+test_polymorphism(inventory)
 
 while True:
     print('''
