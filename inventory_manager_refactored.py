@@ -5,6 +5,8 @@ from inventory import Inventory
 from product import PhysicalProduct, DigitalProduct, Product
 from supplier import Supplier
 
+DEFAULT_SUPPLIER = Supplier("S001", "Test Inc.", "supplier1@test.com")
+
 def is_float(element):
     try:
         float(element)
@@ -30,7 +32,7 @@ def validate_float_input(user_input):
     print("Error! Please enter a positive float value!")
     return None
     
-def load_inventory(file_path):
+def load_inventory(file_path: Path) -> Inventory:
     inventory_obj = Inventory()
     if os.path.exists(file_path):
         if os.path.getsize(file_path) != 0:
@@ -43,12 +45,14 @@ def load_inventory(file_path):
                         
                         if product_type == 'Physical':
                             weight = float(item.get('Weight', 1.0)) 
-                            product = PhysicalProduct(item['ID'], item['Name'], float(raw_price), item['Stock'], weight)
+                            # FIX: Added DEFAULT_SUPPLIER right before weight
+                            product = PhysicalProduct(item['ID'], item['Name'], float(raw_price), item['Stock'], DEFAULT_SUPPLIER, weight)
                         elif product_type == 'Digital':
                             download_size = float(item.get('DownloadSize', 100.0))
-                            product = DigitalProduct(item['ID'], item['Name'], float(raw_price), item['Stock'], download_size)
+                            # FIX: Added DEFAULT_SUPPLIER right before download_size
+                            product = DigitalProduct(item['ID'], item['Name'], float(raw_price), item['Stock'], DEFAULT_SUPPLIER, download_size)
                             
-                        inventory_obj._products.append(product) 
+                        inventory_obj.add_product(product) 
             except json.JSONDecodeError:
                 pass
     else:
