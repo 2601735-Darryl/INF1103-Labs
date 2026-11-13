@@ -2,7 +2,8 @@ import os
 import json
 from pathlib import Path
 from inventory import Inventory
-from product import PhysicalProduct, DigitalProduct
+from product import PhysicalProduct, DigitalProduct, Product
+from supplier import Supplier
 
 def is_float(element):
     try:
@@ -65,6 +66,22 @@ def save_inventory(file_path, inventory_obj, menu_option):
     else:
         print('\nSaving inventory before exit...Inventory saved successfully.')
 
+def show_product_details(product: Product) -> None:
+    product.display_information()
+    print(product.get_fulfilment_info())
+
+def test_lsp() -> None:
+    print("\n---Testing LSP---")
+    
+    test_supplier = Supplier("S067", "Test Supplier", "test@gmail.com")
+    physical_test = PhysicalProduct("P067", "Test Book", 15.0, 10, test_supplier, 0.5)
+    digital_test = DigitalProduct("D067", "Test E-Book", 2.0, 10, test_supplier, 5.0)
+    
+    print("Testing Physical Product LSP:")
+    show_product_details(physical_test)
+    
+    print("Testing Digital Product LSP:")
+    show_product_details(digital_test)
 
 file = Path('inventory.json')
 inventory = load_inventory(file)
