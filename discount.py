@@ -27,3 +27,13 @@ class BulkDiscount(DiscountStrategy):
 
     def apply(self, total: float) -> float:
         return total - self.discount_amount if total >= self.threshold else total
+
+class StudentDiscount(DiscountStrategy):
+    def __init__(self, percentage: float = 5.0) -> None:
+        if not (0 <= percentage <= 100):
+            raise ValueError("Student discount percentage must be between 0 and 100.")
+        self.percentage: float = percentage
+
+    def apply(self, total: float) -> float:
+        return total * (1 - self.percentage / 100)
+    
