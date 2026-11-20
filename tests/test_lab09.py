@@ -19,7 +19,7 @@ class TestLab09DesignPatternsAndErrorHandling(unittest.TestCase):
         self.supplier = Supplier("S001", "Test Inc.", "supplier1@test.com")
         self.item_a = ProductFactory.create("physical", "P001", "Desk Lamp", 125.0, 10, self.supplier, weight=1.5)
 
-    # --- Section 2: Strategy Pattern ---
+    # --- Strategy Pattern ---
 
     def test_order_default_no_discount(self) -> None:
         order = Order("O001")
@@ -40,7 +40,7 @@ class TestLab09DesignPatternsAndErrorHandling(unittest.TestCase):
         order.add_order_line(self.item_a, 2)  # 250.0 -> 5% off = 237.5
         self.assertEqual(order.calculate_total(), 237.5)
 
-    # --- Section 3: Factory Pattern ---
+    # --- Factory Pattern ---
 
     def test_product_factory_creates_subclasses(self) -> None:
         phys = ProductFactory.create("physical", "P010", "Chair", 50.0, 5, self.supplier)
@@ -53,7 +53,7 @@ class TestLab09DesignPatternsAndErrorHandling(unittest.TestCase):
             ProductFactory.create("service", "S001", "Installation", 30.0, 5, self.supplier)
         self.assertIn("Unknown product type: service", str(ctx.exception))
 
-    # --- Section 4: Validation ---
+    # --- Validation ---
 
     def test_product_validation_rejects_invalid_price_and_stock(self) -> None:
         with self.assertRaises(ValueError):
@@ -71,7 +71,7 @@ class TestLab09DesignPatternsAndErrorHandling(unittest.TestCase):
         with self.assertRaises(ValueError):
             OrderLine(self.item_a, -2)
 
-    # --- Section 5: Exception Handling ---
+    # --- Exception Handling ---
 
     @patch("builtins.input", side_effect=["abc", "-5", "12.50"])
     def test_get_positive_float_reprompts_until_valid(self, _mock_input) -> None:
